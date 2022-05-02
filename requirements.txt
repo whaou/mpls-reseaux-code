@@ -1,0 +1,6 @@
+# For the WS server part
+websockets
+pyserial
+
+# For the Web App
+flask

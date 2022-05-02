@@ -19,8 +19,8 @@ se trouvent dans le répertoire `embedded` de ce dépôt.
 
 Un programme sur le PC interprète ces messages et en publie
 le contenu sur un websocket sur le port 8000 du PC. Son code se trouve 
-dans le répertoire `server` de ce dépôt.
+dans le répertoire `server` de ce dépôt (lancer `ws_clientonly.py`).
 
 Une application web se connecte à ce websocket pour récupérer ces 
 données et les afficher dans le navigateur web. Son code se trouve dans 
-le répertoire `webapp` de ce dépôt.
+le répertoire `webapp` de ce dépôt (lancer `app.py`).

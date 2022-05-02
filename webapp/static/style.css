@@ -1,0 +1,50 @@
+body {
+    font-family: "Courier New", sans-serif;
+    text-align: center;
+}
+
+.carte {
+    font-size: 2em;
+    display: inline-flex;
+    justify-content: center;
+    border: solid;
+    margin: 10px;
+    min-width: 500px;
+    width: 40%;
+}
+
+.button,
+.VAL {
+    line-height: 1;
+    padding: 1rem;
+    margin: 1rem;
+    border: medium solid;
+    min-height: 1em;
+    min-width: 1em;
+}
+
+.button {
+    cursor: pointer;
+    user-select: none;
+}
+
+.btnA {
+    color: red;
+}
+
+.btnB {
+    color: green;
+}
+
+.VAL {
+    //min-width: 2em;
+}
+
+.state {
+    font-size: 2em;
+}
+
+.datas {
+    display: contents;
+    font-size: 0.5em;
+}
