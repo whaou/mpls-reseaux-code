@@ -14,9 +14,20 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/carte/<board_number>")
+def board(board_number):
+    print("Accessing board number" + str(board_number))
+    return render_template("board.html", board_number=board_number)
+
+
 @app.route("/about")
 def about():
     return "It's me!"
+
+
+@app.route("/test")
+def test():
+    return render_template("test.html")
 
 
 # @app.route("/hello/<name>")

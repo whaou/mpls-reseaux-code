@@ -32,7 +32,7 @@ MSG_JSON = {
 #
 #  Déatils du flux JSON pour chaque cartes MB
 #  {
-#    "CARTE": "01", /* chiffre 2 digits */
+#    "C": "01", /* chiffre 2 digits */
 #    "NAME": "", /* libre = nom de la "carte" mb à afficher */
 #    "TEXT": "", /* texte libre */
 #    "VAL": "", /* nombre entier ou float */
@@ -53,7 +53,7 @@ MSG_JSON = {
 #    "MVT": "", /* 0/1 capteur PIR présence/mouvement */
 #    "LASTCMD": ""  /* dernière commande reçue */
 #  }
-#  CARTEXXTEMPYYYYYYYY
+#  CXXTEMPYYYYYYYY
 #  XX => numéro de la carte 01 à 24
 #  YYYYYYYY => témpérature -10.0  25
 
@@ -65,7 +65,7 @@ NB_CARTEMB = 24  # nombre de cartes gérée dans le programme
 DATA_JSON = {}
 
 
-# TAB_MB.append({"CARTE": "00", **MSG_JSON})
+# TAB_MB.append({"C": "00", **MSG_JSON})
 #
 # initialise le tableau de cartes avec un MSG au format JSON pour chacune qui est mis à jour lors de chaque réception de data sur via la carte MB serveur
 #
@@ -74,7 +74,7 @@ for i in range(0, NB_CARTEMB + 1):
         y = "0" + str(i)
     else:
         y = str(i)
-    TAB_MB.append({"CARTE": y, **MSG_JSON})
+    TAB_MB.append({"C": y, **MSG_JSON})
 
 #
 # Fonction find_comport permet de trouver la carte MB connectée en USB
@@ -109,71 +109,86 @@ def find_comport(pid, vid, baud):
 
 
 #
-# Fonction MSG_to_JSON prends en paramètre le message brut et le découpe pour le stocker dans le tableau TAB_MB à la position correspondant au numéro de la carte MB
-# ainsi met a jour les datas de la carte pour chaque message et retourne le message JSON complet pour la carte une fois traité avec un status "STATE" OK ou ERROR si pas traité corectement
+# Fonction MSG_to_JSON prend en paramètre le message brut et le découpe
+# pour le stocker dans le tableau TAB_MB à la position correspondant au
+# numéro de la carte MB ainsi met a jour les datas de la carte pour
+# chaque message et retourne le message JSON complet pour la carte une
+# fois traité avec un status "STATE" OK ou ERROR si pas traité
+# correctement
 #
 def MSG_to_JSON(message):
     # convertir le message en JSON
-    # MSG_JSON = {"CARTE": "","NAME": "","TEXT": "","VAL": 0,"TEMP": 0,"A": "","B": "","AB": "","P0": "","P1": "","P2": "","RGB": "0","PITCH": "","ROLL": "","ACCX": "","ACCY": "","ACCZ": "","DIST": "","MVT": "","LASTCMD": ""}
+    # MSG_JSON = {"C": "","NAME": "","TEXT": "","VAL": 0,"TEMP": 0,"A": "","B": "","AB": "","P0": "","P1": "","P2": "","RGB": "0","PITCH": "","ROLL": "","ACCX": "","ACCY": "","ACCZ": "","DIST": "","MVT": "","LASTCMD": ""}
 
     message = message.strip("\n")
     message = message.strip("\r")
     message = message.strip(" ")
-    if message[0:5] == "CARTE":
+    if message[0:2] == "C:":
         # Reception d'un ou plusieurs messages d'une carte MB
         # print("MESSAGE MSG_to_JSON --", message, "--")
 
         NUM_MSG["NBMSG"] += 1
 
-        if message.find("CARTE", 5) > 0:
+        if message.find("C:", 2) > 0:
             # ici 2 messages imbriqués au moins...
-            pos = message[7:].find("CARTE")
-            MSG_to_JSON(message[7 + pos :])
-            message = str(message[: 7 + pos])
+            pos = message[4:].find("C:")
+            MSG_to_JSON(message[4 + pos :])
+            message = str(message[: 4 + pos])
 
         try:
-            num_carte = int(message[5:7])
-            if num_carte > NB_CARTEMB:
-                print("Error numero carte --", num_carte, "-- message :", message)
+            # Récupération du n° de la carte
+            msg = message.split(";")
+            print("recherche n° carte: ", msg)
+            try:
+                m = msg.pop(0).split(":")
+                num_carte = int(m[1])
+                print("->", num_carte)
+                if num_carte > NB_CARTEMB:
+                    print("Error numero carte --", num_carte, "-- message :", message)
+                TAB_MB[num_carte]["CARTE"] = f"{num_carte:02d}"
+            except:
+                return json.dumps({"STATE": "ERROR", **NUM_MSG})
 
-            TAB_MB[num_carte]["CARTE"] = message[5:7]
+            # Récupération de la commande
+            next_cmd = msg.pop(0).split(":")
+            print("Commande suivante: ", next_cmd)
 
-            message = message[7:]
+            # Si le champ est de type string
+            if next_cmd[0] in ["TEXT", "A", "B", "AB", "P0", "P1", "P2", "MVT"]:
+                print("Commande texte: " + next_cmd[0])
+                try:
+                    TAB_MB[num_carte][next_cmd[0]] = next_cmd[1]
+                except:
+                    return json.dumps({"STATE": "ERROR", **NUM_MSG})
 
-            if message[:4] == "TEXT":
-                TAB_MB[num_carte]["TEXT"] = message[4:]
-            elif message[:3] == "VAL":
-                TAB_MB[num_carte]["VAL"] = float(message[3:])
-            elif message[:4] == "TEMP":
-                TAB_MB[num_carte]["TEMP"] = float(message[4:])
-            elif message[:1] == "A":
-                TAB_MB[num_carte]["A"] = message[1:]
-            elif message[:1] == "B":
-                TAB_MB[num_carte]["B"] = message[1:]
-            elif message[:3] == "AB":
-                TAB_MB[num_carte]["AB"] = message[3:]
-            elif message[:2] == "P0":
-                TAB_MB[num_carte]["P0"] = message[2:]
-            elif message[:2] == "P1":
-                TAB_MB[num_carte]["P1"] = message[2:]
-            elif message[:2] == "P2":
-                TAB_MB[num_carte]["P2"] = message[2:]
-            elif message[:3] == "RGB":
-                TAB_MB[num_carte]["RGB"] = message[3:]
-            elif message[:5] == "PITCH":
-                TAB_MB[num_carte]["PITCH"] = float(message[5:])
-            elif message[:4] == "ROLL":
-                TAB_MB[num_carte]["ROLL"] = float(message[4:])
-            elif message[:4] == "ACCX":
-                TAB_MB[num_carte]["ACCX"] = float(message[4:])
-            elif message[:4] == "ACCY":
-                TAB_MB[num_carte]["ACCY"] = float(message[4:])
-            elif message[:4] == "ACCZ":
-                TAB_MB[num_carte]["ACCZ"] = float(message[4:])
-            elif message[:4] == "ACCX":
-                TAB_MB[num_carte]["ACCX"] = float(message[4:])
-            elif message[:3] == "MVT":
-                TAB_MB[num_carte]["MVT"] = message[3:]
+            # Si le champ est de type float
+            elif next_cmd[0] in [
+                "VAL",
+                "TEMP",
+                "PITCH",
+                "ROLL",
+                "ACCX",
+                "ACCY",
+                "ACCZ",
+            ]:
+                try:
+                    TAB_MB[num_carte][next_cmd[0]] = float(next_cmd[1])
+                except:
+                    return json.dumps({"STATE": "ERROR", **NUM_MSG})
+
+            # Si le champ est de type RGB
+            elif next_cmd[0] == "R":
+                try:
+                    print("Commande RGB: ", next_cmd[1])
+                    [r, g, b] = next_cmd[1].split(",")
+                    [red, green, blue] = [int(r), int(g), int(b)]
+                    print("-> ", f"{red:03d}" + f"{green:03d}" + f"{blue:03d}")
+                    TAB_MB[num_carte]["RGB"] = (
+                        f"{red:03d}" + f"{green:03d}" + f"{blue:03d}"
+                    )
+                    print("3")
+                except:
+                    return json.dumps({"STATE": "ERROR", **NUM_MSG})
 
             TAB_MB[num_carte]["LASTCMD"] = message
 
@@ -193,22 +208,22 @@ async def producer():
         DATA_JSON = ""
         if message:
             print("Message RECU de la MB serveur: --", message, "--")
-            if message[0:5] == "CARTE":
-                # Reception d'un message d'une carte MB
-                # print("CARTE ",  message[5:7], " message :", message[7:])
-
-                # Traitement du message et conversion en JSON
-                DATA_JSON = MSG_to_JSON(str(message))
-                # print(DATA_JSON)
-
-                print(NUM_MSG["NBMSG"], " messages reçus et envoyé ...")
-
-                # Accuse de reception, retourne a la MB serveur un ACK + numéro carte du message
-                accuse = "ACK" + message[5:7]
-                mb_serie.write(accuse.encode("utf-8"))
-                # print(accuse)
-            else:
+            if message[0:2] != "C:":
                 print("Erreur message : --", message, "--")
+                return DATA_JSON
+            # Reception d'un message d'une carte MB
+            # print("CARTE ",  message[5:7], " message :", message[7:])
+
+            # Traitement du message et conversion en JSON
+            DATA_JSON = MSG_to_JSON(str(message))
+            print(DATA_JSON)
+
+            print(NUM_MSG["NBMSG"], " messages reçus et envoyé ...")
+
+            # Accuse de reception, retourne a la MB serveur un ACK + numéro carte du message
+            accuse = "ACK" + message[2:4]
+            mb_serie.write(accuse.encode("utf-8"))
+            # print(accuse)
         return DATA_JSON
     except ValueError:
         print("Erreur de recpetion message")

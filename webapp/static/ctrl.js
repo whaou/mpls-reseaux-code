@@ -14,7 +14,7 @@ function btnA_cmd(obj) {
 }
 function btnB_cmd(obj) {
     var num_carte = obj.parentNode.id
-    console.log("Envoyer au WS appuie BtnA ...", num_carte);
+    console.log("Envoyer au WS appuie BtnB ...", num_carte);
     ws.send(JSON.stringify({ "CARTE": num_carte, "COMMAND": 'btnB' }));
 }
 function VAL_cmd(obj) {
