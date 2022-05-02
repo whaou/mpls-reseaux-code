@@ -14,6 +14,8 @@ L'application est constituée plusieurs cartes micro:bit *cliente(s)*
 (une par stagiaire) qui envoient des messages par radio vers une autre
 carte micro:bit dite *serveur*. Cette carte renvoie tous les messages 
 qu'elle reçois par la radio vers la liaison série de son port USB.
+Des exemples de code (en python) pour ces cartes (cliente et serveur) 
+se trouvent dans le répertoire `embedded` de ce dépôt.
 
 Un programme sur le PC interprète ces messages et en publie
 le contenu sur un websocket sur le port 8000 du PC. Son code se trouve 
