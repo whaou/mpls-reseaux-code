@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WebSocker Client et Serveur Micro:Bit</title>
+
+    <!-- Include CSS File(s)) -->
+    <link rel="stylesheet" href="/static/style.css" />
+
+</head>
+
+<body>
+    <div class="state">
+        <span class="NBMSG">?</span> Messages Reçus
+    </div>
+    <div class="carte" id="CARTE99" style="display: none;">
+        <div class="num button">99</div>
+        <div class="btnA button" onclick="btnA_cmd(this)">A</div>
+        <!-- <div class="VAL">?</div> -->
+        <input type="text" class="VAL" value="?" onchange="VAL_cmd(this)">
+        <div class="btnB button" onclick="btnB_cmd(this)">B</div>
+        <div class="datas">datas ...</div>
+    </div>
+</body>
+
+<!-- Include JS control script -->
+<script src="/static/ctrl.js"></script>
+
+
+</html>
