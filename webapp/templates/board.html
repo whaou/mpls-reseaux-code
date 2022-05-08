@@ -19,21 +19,14 @@
         <span class="NBMSG">?</span> Messages Reçus
     </div>
     <h1> Carte {{board_number}}</h1>
-    <div class="carte" id="CARTE{{board_number}}" > <!-- style="display: none;" -->
-        <div class="num button">99</div>
-        <input type="text" class="VAL" value="?" onchange="VAL_cmd()">
-        <div class="datas">datas ...</div>
-    </div>
+    Couleur RGB reçue : 
+    <div class="carte" id="color_RGB" style="width: 10%;height: 50px;" ></div>
+    Donnée : <input type="text" id="VAL" value="?" onchange="VAL_cmd()">
+    <br>Dernière commande reçue : <div id="datas">datas ...</div>
+    <br>Toutes les datas de la Carte :<br>
 
-    <!-- Carte MB v1 fichier svg
-    <object data="/static/microbit-btn.svg" type="image/svg+xml" id="carte{{board_number}}_old" width="20%"></object> -->
-    
-    <!-- Carte MB v2 fichier svg
-    <object data="/static/microbit-drawing-2.svg" type="image/svg+xml" width="20%"></object> -->
-    
-    
     <!-- https://codepen.io/hawkz/pen/XXNeRW -->
-    <div class="microbit-svg" width="10%">
+    <div class="microbit-svg" width="10%" style="left:50%;">
     <svg width="1298px" height="1055px" viewBox="0 0 1298 1055" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="carte{{board_number}}" >
         <title>microbit</title>
         <defs>
@@ -212,6 +205,9 @@
 
     c1 = document.getElementById("carte{{board_number}}");
 
+    var color_RGB = document.getElementById("color_RGB");
+    var div_datas = document.getElementById("datas"),
+        in_VAL = document.getElementById("VAL");
     
     var btnA = c1.getElementById("Button1"), 
         btnB = c1.getElementById("Button2"); 

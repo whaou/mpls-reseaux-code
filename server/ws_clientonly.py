@@ -242,13 +242,13 @@ WS_connected = set()
 async def consumer(message):
     # print("< {}".format(message))
     # exemples :
-    # < {"CARTE":"CARTE01","COMMAND":"btnA"}
-    # < {"CARTE":"CARTE01","COMMAND":"40"}
-    # < {"CARTE":"CARTE01","COMMAND":"btnB"}
-    # Envoyer aux carte MB CARTEXXCMDYYYYYYY  => XX numéro de carte   YYYYY valeur de la commande envoyée btnA, btnB = appuye bouton A, B ou une "valeur"
+    # < {"CARTE":"01","COMMAND":"btnA"}
+    # < {"CARTE":"01","COMMAND":"40"}
+    # < {"CARTE":"01","COMMAND":"btnB"}
+    # Envoyer aux carte MB C:XX;CMD:YYYYYYY  => XX numéro de carte   YYYYY valeur de la commande envoyée btnA, btnB = appuye bouton A, B ou une "valeur"
     # TODO ici on peut envoyer un message depuis une page WS via le WS et piloter une carte MB
     json_send_msg = json.loads(message)
-    send_msg = json_send_msg["CARTE"] + "CMD" + json_send_msg["COMMAND"]
+    send_msg = "C:" + json_send_msg["CARTE"] + ";CMD:" + json_send_msg["COMMAND"]
     mb_serie.write(send_msg.encode("utf-8"))
     print("Message envoye a la MB serveur = ", send_msg)
 

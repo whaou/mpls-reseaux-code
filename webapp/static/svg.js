@@ -25,26 +25,21 @@ ws.onmessage = function (event) {
 
     // affiche le nombre de messages reçus  
     NBMSG.textContent = data.NBMSG.toString()
-
-    decode_json(data)
+    
+    if (data.CARTE.toString() == num_carte) {
+        decode_json(data)
+    }
 };
 
 
 function decode_json(data) {
-    var carte = document.getElementById("".concat('CARTE', data.CARTE));
-    var div_datas = carte.querySelector('.datas'),
-        num_mb = carte.querySelector('.num'),
-        in_VAL = carte.querySelector('.VAL');
-        //btnA = carte.querySelector('.btnA'),
-        //btnB = carte.querySelector('.btnB');
 
-    num_mb.textContent = data.CARTE.toString();
     in_VAL.value = data.VAL;
 
     if (Number.parseInt(data.RGB.substr(0, 9)) == 0) { // dans ce cas LED éteinte = tout NOIR !! donc fond noir mais on ne voit plus le texte ... donc je met blanc !!
-        carte.style.backgroundColor = "rgb(255,255,255)";
+        color_RGB.style.backgroundColor = "rgb(255,255,255)";
     } else {
-        carte.style.backgroundColor = "rgb(" + data.RGB.substr(0, 3) + "," + data.RGB.substr(3, 3) + "," + data.RGB.substr(6) + ")"; // "rgb(60,179,113)";
+        color_RGB.style.backgroundColor = "rgb(" + data.RGB.substr(0, 3) + "," + data.RGB.substr(3, 3) + "," + data.RGB.substr(6) + ")"; // "rgb(60,179,113)";
     }
 
     if (data.A == "1") {
