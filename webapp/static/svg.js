@@ -67,7 +67,7 @@ function decode_json(data) {
     datas = "";
 
     datas = " NAME=" + data.NAME
-        + "TEMP=" + data.TEMP
+        + "<br>" + "TEMP=" + data.TEMP
         + "<br>" + "A=" + data.A
         + "<br>" + "B=" + data.B
         + "<br>" + "AB=" + data.AB
