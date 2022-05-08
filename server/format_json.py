@@ -1,5 +1,5 @@
 {
-  "CARTE": "01", /* chiffre 2 digits */
+  "C": "01", /* Numéro de la CARTE MB, chiffre 2 digits */
   "NAME": "", /* libre = nom de la "carte" mb à afficher */
   "TEXT": "", /* texte libre */
   "VAL": "", /* nombre entier ou float */

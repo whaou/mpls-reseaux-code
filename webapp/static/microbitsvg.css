@@ -1,0 +1,34 @@
+.microbit-svg {
+  display: block;
+  margin: 1em auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -200px;
+  margin-top: -150px;
+  width:400px;
+  height: 300px;
+}
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+@keyframes fading {
+    0%   { fill: #333; }
+    33%  { fill: red; }
+    66%  { fill: red; }
+    100% { fill: #333; }
+}
+
+/* Animation fait cilgnoter la led 17 
+.microbit-svg #Rectangle-5-Copy-17 {
+  animation: fading 1s infinite;
+}
+*/
+/* Animation fait cilgnoter les Led*/
+.microbit-svg .clignoterLed {
+  animation: fading 1s infinite;
+}

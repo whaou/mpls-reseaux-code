@@ -154,7 +154,7 @@ def MSG_to_JSON(message):
             print("Commande suivante: ", next_cmd)
 
             # Si le champ est de type string
-            if next_cmd[0] in ["TEXT", "A", "B", "AB", "P0", "P1", "P2", "MVT"]:
+            if next_cmd[0] in ["NAME", "TEXT", "A", "B", "AB", "P0", "P1", "P2", "MVT"]:
                 print("Commande texte: " + next_cmd[0])
                 try:
                     TAB_MB[num_carte][next_cmd[0]] = next_cmd[1]
