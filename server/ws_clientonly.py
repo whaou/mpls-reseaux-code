@@ -61,7 +61,7 @@ MSG_JSON = {
 NUM_MSG = {"NBMSG": 0}
 
 TAB_MB = []
-NB_CARTEMB = 24  # nombre de cartes gérée dans le programme
+NB_CARTEMB = 99  # nombre de cartes gérée dans le programme
 
 DATA_JSON = {}
 
