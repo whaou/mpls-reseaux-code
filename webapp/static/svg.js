@@ -42,12 +42,12 @@ function decode_json(data) {
         color_RGB.style.backgroundColor = "rgb(" + data.RGB.substr(0, 3) + "," + data.RGB.substr(3, 3) + "," + data.RGB.substr(6) + ")"; // "rgb(60,179,113)";
     }
 
-    if (data.A == "1") {
+    if (data.A.trim() == "1") {
         btnA.style.fill = "red"
     } else {
         btnA.style.fill = "black"
     }
-    if (data.B == "1") {
+    if (data.B.trim() == "1") {
         btnB.style.fill = "red"
     } else {
         btnB.style.fill = "black"
