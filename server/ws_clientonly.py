@@ -123,7 +123,7 @@ def MSG_to_JSON(message):
 
     message = message.strip("\n")
     message = message.strip("\r")
-    message = message.strip(" ")
+    # message = message.strip(" ")
     if message[0:2] == "C:":
         # Reception d'un ou plusieurs messages d'une carte MB
         # print("MESSAGE MSG_to_JSON --", message, "--")
@@ -312,8 +312,8 @@ else:
     s.connect(("8.8.8.8", 80))
     print(s.getsockname()[0])
 
-    # start_server = websockets.serve(handler, '192.168.1.59', 8000)
-    start_server = websockets.serve(handler, s.getsockname()[0], 8000)
+    # start_server = websockets.serve(handler, s.getsockname()[0], 8000)
+    start_server = websockets.serve(handler, "0.0.0.0", 8000)
 
     asyncio.get_event_loop().run_until_complete(start_server)
     # asyncio.get_event_loop().run_forever()

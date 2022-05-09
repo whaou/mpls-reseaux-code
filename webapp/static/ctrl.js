@@ -27,10 +27,19 @@ function VAL_cmd(obj) {
 }
 
 const url = new URL(window.location.href);
-//console.log(url.hostname);
+console.log(url.hostname);
 
-//var ws = new WebSocket("ws://192.168.1.59:8000/");
-var ws = new WebSocket("ws://" + url.hostname + ":8000/");
+var ws_add = url.hostname;
+if (ws_add == null) {
+    ws_add = "127.0.0.1"
+}
+console.log(ws_add)
+
+// var ws = new WebSocket("ws://192.168.1.6:8000/");
+// var ws = new WebSocket("ws://127.0.0.1:8000/");
+// var ws = new WebSocket("ws://" + url.hostname + ":8000/");
+var ws = new WebSocket("ws://" + ws_add + ":8000/");
+
 ws.onmessage = function (event) {
     data = JSON.parse(event.data);
     console.log(data);
