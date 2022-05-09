@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WebSocker Client et Serveur Micro:Bit</title>
+
+    <!-- Include CSS File(s)) -->
+    <!-- <link rel="stylesheet" href="/static/style.css" /> -->
+
+
+</head>
+
+<body>
+
+    <object data="/static/microbit-btn.svg" type="image/svg+xml" id="carte01" width="20%"></object>
+
+</body>
+
+<!-- Include JS control script -->
+<!-- <script src="/static/ctrl.js"></script> -->
+<script>
+    c1 = document.getElementById("carte01");
+    c1.addEventListener("load", function () {
+        c1.contentDocument.getElementById("btnA").style.fill = "red";
+    }, false);
+
+</script>
+
+
+</html>

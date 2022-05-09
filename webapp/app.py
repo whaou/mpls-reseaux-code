@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 # Tutorial from: https://projects.raspberrypi.org/en/projects/python-web-server-with-flask/
 
@@ -14,9 +14,26 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/carte/<board_number>")
+def board(board_number):
+    print("Accessing board number" + str(board_number))
+    return render_template("board.html", board_number=board_number)
+
+
+@app.route("/jauge/<jauge_number>")
+def jauge(jauge_number):
+    print("Accessing jauge number" + str(jauge_number))
+    return render_template("jauge.html", jauge_number=jauge_number)
+
+
 @app.route("/about")
 def about():
     return "It's me!"
+
+
+@app.route("/test")
+def test():
+    return render_template("test.html")
 
 
 # @app.route("/hello/<name>")

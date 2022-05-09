@@ -4,7 +4,7 @@ def on_button_pressed_a():
         A_state = 0
     else:
         A_state = 1
-    radio.send_string("" + msg_header + "A" + convert_to_text(A_state))
+    radio.send_string("" + msg_header + "A" + ":" + convert_to_text(A_state))
     nb_tx += 1
 
 
@@ -17,40 +17,61 @@ def on_button_pressed_b():
         B_state = 0
     else:
         B_state = 1
-    radio.send_string("" + msg_header + "B" + convert_to_text(B_state))
+    radio.send_string("" + msg_header + "B" + ":" + convert_to_text(B_state))
     nb_tx += 1
 
 
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
+color = 0
 nb_tx = 0
 B_state = 0
 A_state = 0
 msg_header = ""
 radio.set_group(1)
-num_carte = "02"
-msg_header = "CARTE" + num_carte
+num_carte = "01"
+msg_header = "C" + ":" + num_carte + ";"
 A_state = 0
 B_state = 0
-color = 0
 basic.show_string("C n°" + num_carte)
 
 
-def on_forever():
-    basic.show_number(nb_tx)
-
-
-basic.forever(on_forever)
-
-
 def on_every_interval():
+    radio.send_string(
+        "" + msg_header + "TEMP" + ":" + convert_to_text(input.temperature())
+    )
+
+
+loops.every_interval(1000, on_every_interval)
+
+
+def on_every_interval2():
+    radio.send_string(
+        ""
+        + msg_header
+        + "PITCH"
+        + ":"
+        + convert_to_text(input.rotation(Rotation.PITCH))
+    )
+    radio.send_string(
+        "" + msg_header + "ROLL" + ":" + convert_to_text(input.rotation(Rotation.ROLL))
+    )
+
+
+loops.every_interval(500, on_every_interval2)
+
+
+def on_every_interval3():
     global color
     radio.send_string(
         ""
         + msg_header
-        + "RGB"
+        + "R"
+        + ":"
         + convert_to_text(color)
+        + ","
         + convert_to_text(color)
+        + ","
         + convert_to_text(color)
     )
     color += 1
@@ -58,4 +79,11 @@ def on_every_interval():
         color = 0
 
 
-loops.every_interval(3600000, on_every_interval)
+loops.every_interval(60000, on_every_interval3)
+
+
+def on_forever():
+    basic.show_number(nb_tx)
+
+
+basic.forever(on_forever)

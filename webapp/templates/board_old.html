@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Carte Micro:Bit {{board_number}}</title>
+
+    <!-- Include CSS File(s)) -->
+    <!-- <link rel="stylesheet" href="/static/style.css" /> -->
+
+
+</head>
+
+<body>
+    <h1> Carte {{board_number}}</h1>
+
+    <object data="/static/microbit-btn.svg" type="image/svg+xml" id="carte{{board_number}}" width="20%"></object>
+
+</body>
+
+<!-- Include JS control script -->
+<script src="/static/ctrl.js"></script>
+<script>
+    c1 = document.getElementById("carte{{board_number}}");
+    btnA = c1.contentDocument.getElementById("btnA");
+    btnB = c1.contentDocument.getElementById("btnB");
+    c1.addEventListener("load", function () {
+        c1.contentDocument.getElementById("btnA").style.fill = "red";
+    }, false);
+    
+    btnA.onclick= btnA_cmd(btnA);
+
+</script>
+
+
+</html>
