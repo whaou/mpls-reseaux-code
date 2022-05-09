@@ -19,6 +19,10 @@ def board(board_number):
     print("Accessing board number" + str(board_number))
     return render_template("board.html", board_number=board_number)
 
+@app.route("/jauge/<jauge_number>")
+def jauge(jauge_number):
+    print("Accessing jauge number" + str(jauge_number))
+    return render_template("jauge.html", jauge_number=jauge_number)
 
 @app.route("/about")
 def about():
