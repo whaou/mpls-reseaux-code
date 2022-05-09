@@ -36,14 +36,32 @@ B_state = 0
 basic.show_string("C n°" + num_carte)
 
 
-def on_forever():
-    basic.show_number(nb_tx)
-
-
-basic.forever(on_forever)
-
-
 def on_every_interval():
+    radio.send_string(
+        "" + msg_header + "TEMP" + ":" + convert_to_text(input.temperature())
+    )
+
+
+loops.every_interval(1000, on_every_interval)
+
+
+def on_every_interval2():
+    radio.send_string(
+        ""
+        + msg_header
+        + "PITCH"
+        + ":"
+        + convert_to_text(input.rotation(Rotation.PITCH))
+    )
+    radio.send_string(
+        "" + msg_header + "ROLL" + ":" + convert_to_text(input.rotation(Rotation.ROLL))
+    )
+
+
+loops.every_interval(500, on_every_interval2)
+
+
+def on_every_interval3():
     global color
     radio.send_string(
         ""
@@ -61,4 +79,11 @@ def on_every_interval():
         color = 0
 
 
-loops.every_interval(100, on_every_interval)
+loops.every_interval(60000, on_every_interval3)
+
+
+def on_forever():
+    basic.show_number(nb_tx)
+
+
+basic.forever(on_forever)
