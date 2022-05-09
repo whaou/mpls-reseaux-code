@@ -308,9 +308,9 @@ else:
     print("-----======== * ========-----")
     mb_serie.open()
 
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))
-    print(s.getsockname()[0])
+    # s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    # s.connect(("8.8.8.8", 80))
+    # print(s.getsockname()[0])
 
     # start_server = websockets.serve(handler, s.getsockname()[0], 8000)
     start_server = websockets.serve(handler, "0.0.0.0", 8000)
